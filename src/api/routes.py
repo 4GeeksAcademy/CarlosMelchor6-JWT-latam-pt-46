@@ -88,7 +88,35 @@ def create_diary_entry():
         db.session.rollback()
         print(e)
         return jsonify({"message": "Failed to create diary entry"}), 500
-    return jsonify({"message": "Diary entry created", "entry_id": new_entry.id}), 201
+    return jsonify({"message": "Diary entry created",   "entry": new_entry.serialize()}), 201
+
+
+@api.route('/diary', methods=['GET'])
+@jwt_required()
+def get_diary_entries():
+    try:
+        user_id = get_jwt_identity()
+        user = db.session.get(User, user_id)
+        if not user:
+            return jsonify({"message": "User not found"}), 404
+
+        entries = DiaryEntry.query.filter_by(user_id=user.id).order_by(
+            DiaryEntry.created_at.desc()).all()
+
+        return jsonify({
+            "entries": [
+                {
+                    "id": entry.id,
+                    "title": entry.title,
+                    "content": entry.content,
+                    "mood": entry.mood,
+                    "created_at": entry.created_at.isoformat() if entry.created_at else None
+                }
+                for entry in entries
+            ]
+        }), 200
+    except Exception as e:
+        return jsonify({"message": "Failed to fetch diary entries", "error": str(e)}), 500
 
 
 @api.route('/token', methods=['POST'])

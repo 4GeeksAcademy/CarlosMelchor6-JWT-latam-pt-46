@@ -53,9 +53,9 @@ class DiaryEntry(db.Model):
         return {
             "id": self.id,
             "content": self.content,
-            "created_at": self.created_at,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
             "title": self.title,
-            "mood": self.mood
+            "mood": self.mood or "No mood given"
         }
 
     # USER RELATIONSHIP

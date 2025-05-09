@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { createUser } from "../services/fetchApi";
+import { useNavigate } from "react-router-dom";
+import { tokenLogin } from "../services/fetchApi";
 
-export const FormLogin = () => {
+export const FormLoginSession = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState(null); // para mostrar mensajes del servidor
-  const [messageType, setMessageType] = useState("success"); // "success" o "error"
+  const [message, setMessage] = useState(null);
+  const [messageType, setMessageType] = useState("success");
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     if (!email || !password) {
@@ -17,43 +19,44 @@ export const FormLogin = () => {
     }
 
     try {
-      await createUser(email, password);
-      setMessage("User created successfully");
+      const data = await tokenLogin(email, password);
+      localStorage.setItem("token", data.token); // guardar token
+
+      setMessage("Login successful");
       setMessageType("success");
-      setEmail("");
-      setPassword("");
+
+      setTimeout(() => {
+        navigate("/dashboard"); // redirigir al área privada
+      }, 1000);
     } catch (error) {
-      setMessage(error.message);
+      setMessage(error.message || "Login failed");
       setMessageType("error");
     }
   };
 
   return (
-    <form className="w-50 mx-auto" onSubmit={handleSubmit}>
+    <form className="w-50 mx-auto" onSubmit={handleLogin}>
       <div className="mb-3">
-        <label htmlFor="exampleInputEmail1" className="form-label">
+        <label htmlFor="loginEmail" className="form-label">
           Email address
         </label>
         <input
           type="email"
           className="form-control"
-          id="exampleInputEmail1"
+          id="loginEmail"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          aria-describedby="emailHelp"
         />
-        <div id="emailHelp" className="form-text">
-          We'll never share your email with anyone else.
-        </div>
       </div>
+
       <div className="mb-3">
-        <label htmlFor="exampleInputPassword1" className="form-label">
+        <label htmlFor="loginPassword" className="form-label">
           Password
         </label>
         <input
           type="password"
           className="form-control"
-          id="exampleInputPassword1"
+          id="loginPassword"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
@@ -71,7 +74,7 @@ export const FormLogin = () => {
       )}
 
       <button type="submit" className="btn btn-primary">
-        Submit
+        Log In
       </button>
     </form>
   );
