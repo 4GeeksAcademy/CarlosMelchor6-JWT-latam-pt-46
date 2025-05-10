@@ -20,13 +20,13 @@ export const FormLoginSession = () => {
 
     try {
       const data = await tokenLogin(email, password);
-      localStorage.setItem("token", data.token); // guardar token
+      localStorage.setItem("token", data.token); 
 
       setMessage("Login successful");
       setMessageType("success");
 
       setTimeout(() => {
-        navigate("/dashboard"); // redirigir al área privada
+        navigate("/dashboard"); 
       }, 1000);
     } catch (error) {
       setMessage(error.message || "Login failed");

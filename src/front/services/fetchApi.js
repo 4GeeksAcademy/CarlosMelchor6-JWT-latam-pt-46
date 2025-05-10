@@ -24,7 +24,6 @@ export const createUser = async (email, password) => {
 
 export const createDiaryEntry = async (title, content, mood) => {
   try {
-    
     const token = localStorage.getItem("token");
     if (!token) {
       throw new Error("No authentication token found.");
@@ -33,7 +32,7 @@ export const createDiaryEntry = async (title, content, mood) => {
       method: "POST",
       headers: {
         "Content-type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ title, content, mood }),
     });
@@ -43,13 +42,12 @@ export const createDiaryEntry = async (title, content, mood) => {
       throw new Error(data.message || "Unknown error");
     }
 
-    return data.entry
+    return data.entry;
   } catch (error) {
     console.error("Error creating diary entry:", error);
     throw error;
   }
 };
-
 
 export const tokenLogin = async (email, password) => {
   try {
@@ -66,17 +64,16 @@ export const tokenLogin = async (email, password) => {
       throw new Error(data.message || "Unknown error");
     }
 
-     if (data.token) {
+    if (data.token) {
       localStorage.setItem("token", data.token);
     }
 
-    return data
+    return data;
   } catch (error) {
     console.error("Error during login:", error);
     throw error;
   }
 };
-
 
 export const getDiaryEntries = async () => {
   try {
@@ -89,7 +86,7 @@ export const getDiaryEntries = async () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -98,7 +95,7 @@ export const getDiaryEntries = async () => {
       throw new Error(data.message || "Failed to fetch diary entries.");
     }
 
-    return data
+    return data;
   } catch (error) {
     console.error("Error fetching diary entries:", error);
     throw error;

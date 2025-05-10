@@ -20,12 +20,12 @@ export const router = createBrowserRouter(
       <Route path="/" element={<Home />} />
       <Route path="/register" element={<RegisterForm />} />
 
-      <Route 
-      path="/dashboard" 
-      element={
-      <PrivateRoute>
-        <Dashboard/>
-      </PrivateRoute>} />
+      <Route
+        path="/dashboard"
+        element={
+          <PrivateRoute>
+            <Dashboard />
+          </PrivateRoute>} />
     </Route>
   )
 );
