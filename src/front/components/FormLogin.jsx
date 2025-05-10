@@ -42,6 +42,7 @@ export const FormLoginSession = () => {
         </label>
         <input
           type="email"
+          placeholder="enteryouremail@example.com"
           className="form-control"
           id="loginEmail"
           value={email}
@@ -55,6 +56,7 @@ export const FormLoginSession = () => {
         </label>
         <input
           type="password"
+          placeholder="password"
           className="form-control"
           id="loginPassword"
           value={password}

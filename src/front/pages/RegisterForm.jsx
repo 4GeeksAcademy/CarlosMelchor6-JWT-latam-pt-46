@@ -26,6 +26,7 @@ export const RegisterForm = () => {
           Email address
         </label>
         <input
+          placeholder="registeryouremail@example.com"
           type="email"
           className="form-control"
           id="loginEmail"
@@ -40,6 +41,7 @@ export const RegisterForm = () => {
         </label>
         <input
           type="password"
+          placeholder="password"
           className="form-control"
           id="loginPassword"
           value={password}
