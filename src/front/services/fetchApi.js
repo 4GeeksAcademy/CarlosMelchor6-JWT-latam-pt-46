@@ -1,5 +1,4 @@
-const API_URL =
-  "https://scaling-space-telegram-7v5v546jwq67cwq95-3001.app.github.dev/api";
+const API_URL = import.meta.env.VITE_BACKEND_URL;
 
 export const createUser = async (email, password) => {
   try {
